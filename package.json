@@ -1,6 +1,6 @@
 {
   "name": "@ubverse/acc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +18,6 @@
     "check:style": "ts-standard src",
     "check:types": "tsc --noEmit",
     "fix:style": "prettier --config .prettierrc.js '**/*.ts' --write && ts-standard --fix src",
-    "postinstall": "if [ -z \"$SKIP_GIT_HOOKS\" ]; then husky install; fi",
     "prepublish": "npm run build"
   },
   "author": "Caian Ertl <hi@caian.org>",
