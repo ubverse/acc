@@ -1,9 +1,17 @@
-import { ConfigValueType, SupportedValueTypes, IConfig, IConfigOptions } from './types'
+import { PartialDeep } from 'type-fest'
+import { ConfigValueType, SupportedValueTypes, IConfig, IConfigOptions, IConfigCollectionOptions } from './types'
 
 export class ConfigCollection {
+  private readonly options: IConfigCollectionOptions
   private readonly configs: IConfig[]
 
-  public constructor () {
+  public constructor (params?: PartialDeep<IConfigCollectionOptions>) {
+    this.options = {
+      defaults: {
+        required: params?.defaults?.required ?? true
+      }
+    }
+
     this.configs = []
   }
 
@@ -30,7 +38,7 @@ export class ConfigCollection {
       name,
       type,
       options: {
-        required: typeof required === 'boolean' ? required : true,
+        required: typeof required === 'boolean' ? required : this.options.defaults.required,
         fallback: typeof fallback === 'undefined' ? this.getDefaultValue(type) : this.validateFallbackValueTypes(type, fallback),
         items: Array.isArray(items) ? items : []
       }

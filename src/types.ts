@@ -49,3 +49,9 @@ export interface IConfig {
 export interface ConfigValueMap {
   [key: string]: SupportedValueTypes
 }
+
+export interface IConfigCollectionOptions {
+  defaults: {
+    required: boolean
+  }
+}

@@ -28,8 +28,8 @@ export class AppConfigurationChecker {
    * @constructs
    * @throws an exception if the checking or parsing fails.
    */
-  public constructor (collection: ConfigCollection) {
-    this.collection = collection.getConfigs()
+  public constructor (collection?: ConfigCollection) {
+    this.collection = collection === undefined ? [] : collection.getConfigs()
     this.refresh()
   }
 
