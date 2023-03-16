@@ -63,8 +63,8 @@ export class SecretsManagerEnvInjector {
 
   private async fetchSecret (name: string): Promise<Optional<string>> {
     const response = await this.client.getSecretValue({ SecretId: name })
-
     const { SecretString: secret } = response ?? {}
+
     return secret
   }
 }

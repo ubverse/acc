@@ -3,9 +3,7 @@ import { ConfigValueType, IConfig } from './types'
 
 describe('ConfigCollection', () => {
   it('should allow a text config to be included', () => {
-    const configs = new ConfigCollection()
-      .include('REQUIRED_TEXT_CFG', ConfigValueType.Text)
-      .getConfigs()
+    const configs = new ConfigCollection().include('REQUIRED_TEXT_CFG', ConfigValueType.Text).getConfigs()
 
     const textConf = {
       name: 'REQUIRED_TEXT_CFG',
@@ -22,9 +20,7 @@ describe('ConfigCollection', () => {
   })
 
   it('should allow a number config to be included', () => {
-    const configs = new ConfigCollection()
-      .include('REQUIRED_NUMBER_CFG', ConfigValueType.Number)
-      .getConfigs()
+    const configs = new ConfigCollection().include('REQUIRED_NUMBER_CFG', ConfigValueType.Number).getConfigs()
 
     const numberConf = {
       name: 'REQUIRED_NUMBER_CFG',
@@ -41,9 +37,7 @@ describe('ConfigCollection', () => {
   })
 
   it('should allow a boolean config to be included', () => {
-    const configs = new ConfigCollection()
-      .include('REQUIRED_BOOLEAN_CFG', ConfigValueType.Boolean)
-      .getConfigs()
+    const configs = new ConfigCollection().include('REQUIRED_BOOLEAN_CFG', ConfigValueType.Boolean).getConfigs()
 
     const booleanConf = {
       name: 'REQUIRED_BOOLEAN_CFG',
@@ -60,9 +54,7 @@ describe('ConfigCollection', () => {
   })
 
   it('should allow a list config to be included', () => {
-    const configs = new ConfigCollection()
-      .include('REQUIRED_LIST_CFG', ConfigValueType.List)
-      .getConfigs()
+    const configs = new ConfigCollection().include('REQUIRED_LIST_CFG', ConfigValueType.List).getConfigs()
 
     const listConf = {
       name: 'REQUIRED_LIST_CFG',
@@ -117,9 +109,7 @@ describe('ConfigCollection', () => {
   })
 
   it('should allow a number config to be included with a custom fallback value', () => {
-    const configs = new ConfigCollection()
-      .include('OPTIONAL_NUMBER_CFG', ConfigValueType.Number, { fallback: 123 })
-      .getConfigs()
+    const configs = new ConfigCollection().include('OPTIONAL_NUMBER_CFG', ConfigValueType.Number, { fallback: 123 }).getConfigs()
 
     const numberConf = {
       name: 'OPTIONAL_NUMBER_CFG',
@@ -193,8 +183,7 @@ describe('ConfigCollection', () => {
   })
 
   it('should not allow a config with empty name', () => {
-    const f = (name: string, type: ConfigValueType): IConfig[] =>
-      new ConfigCollection().include(name, type).getConfigs()
+    const f = (name: string, type: ConfigValueType): IConfig[] => new ConfigCollection().include(name, type).getConfigs()
 
     const tests = [
       { name: '', type: ConfigValueType.Text },
@@ -278,16 +267,9 @@ describe('ConfigCollection', () => {
 
   it('should not allow a lowercase config name when "ensureUpperCaseNames" is set', () => {
     const f = (name: string): IConfig[] =>
-      new ConfigCollection({ ensureUpperCaseNames: true })
-        .include(name, ConfigValueType.Text)
-        .getConfigs()
+      new ConfigCollection({ ensureUpperCaseNames: true }).include(name, ConfigValueType.Text).getConfigs()
 
-    const tests = [
-      { name: 'lowercase' },
-      { name: 'MixedCase' },
-      { name: 'Mixed_Case' },
-      { name: 'Mixed_Case_With_Numbers_123' }
-    ]
+    const tests = [{ name: 'lowercase' }, { name: 'MixedCase' }, { name: 'Mixed_Case' }, { name: 'Mixed_Case_With_Numbers_123' }]
 
     for (const t of tests) {
       expect(() => f(t.name)).toThrowError(`the config "${t.name}" must have an uppercased name`)
