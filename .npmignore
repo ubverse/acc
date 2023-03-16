@@ -5,3 +5,5 @@
 .prettierignore
 commitlint.config.js
 report
+
+**/*.test.ts
