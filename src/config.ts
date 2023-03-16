@@ -1,33 +1,10 @@
 import { ConfigCollection } from './collection'
 import { IConfig, ConfigValueType, ConfigValueMap, SupportedValueTypes, Nullable } from './types'
 
-/**
- * Class responsible for fetching, validating and parsing the environment
- * variables used by the system. Applications typically rely on such
- * for configuration and credentials passing and because the validation and
- * parsing (since every env is a string) can be painful, this module exists.
- *
- * This is a reusable component that can be extended to check many variables at
- * once, as well their types. E.g.:
- *
- * - $PORT is read by the system to indicate on what port the web service will
- * listen to. Without this variable the system cannot init and the type _MUST_
- * be a number.
- *
- * - $PORT will then be added at the constructor as a required var of type number.
- *
- * @class
- */
 export class AppConfigurationChecker {
   private readonly collection: IConfig[]
   private envs: ConfigValueMap
 
-  /**
-   * Fetches the environment variables from a pre-defined list.
-   *
-   * @constructs
-   * @throws an exception if the checking or parsing fails.
-   */
   public constructor (collection?: ConfigCollection) {
     this.collection = collection === undefined ? [] : collection.getConfigs()
     this.refresh()
@@ -72,16 +49,16 @@ export class AppConfigurationChecker {
       const value = process.env[env.name]
 
       if (value === undefined || value.length === 0) {
-        if (env.options.required) {
+        if (env.option.isRequired) {
           missing.push(env.name)
         } else {
-          values[env.name] = env.options.fallback
+          values[env.name] = env.option.fallback
         }
 
         continue
       }
 
-      const parsedEnv = this.parseData(env.type, value, env.options.items)
+      const parsedEnv = this.parseData(env.type, value, env.option.items)
       if (parsedEnv === null) {
         throw new Error(`environment variable ${env.name} is not of type ${env.type}`)
       }

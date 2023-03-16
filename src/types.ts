@@ -12,7 +12,7 @@ export interface IHash<T = any> {
  * - `Boolean` translates the string values "true" and "false" to their
  *   respective boolean values. String checking is case-insensitive.
  *
- * - `String` returns the variable value as is (the value is already a string)
+ * - `Text` returns the variable value as is (the value is already a string)
  *
  * - `Number` translates a string made of numbers to a Number. Floating-point
  *   numbers could be parsed but the exact value will be lost due to "parseInt".
@@ -34,24 +34,25 @@ export enum ConfigValueType {
 /* Supported environment variables types (as seem at @enum ConfigDataType). */
 export type SupportedValueTypes = string | number | boolean | string[]
 
-export interface IConfigOptions {
-  readonly required: boolean
+export interface IConfigUserOptions {
   readonly fallback: SupportedValueTypes
   readonly items: Nullable<string[]>
+}
+
+export interface IConfigOptions extends IConfigUserOptions {
+  readonly isRequired: boolean
 }
 
 export interface IConfig {
   readonly name: string
   readonly type: ConfigValueType
-  readonly options: IConfigOptions
+  readonly option: IConfigOptions
 }
 
 export interface ConfigValueMap {
   [key: string]: SupportedValueTypes
 }
 
-export interface IConfigCollectionOptions {
-  defaults: {
-    required: boolean
-  }
+export interface IConfigCollectionOption {
+  readonly ensureUpperCaseNames: boolean
 }
