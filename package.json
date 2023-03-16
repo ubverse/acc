@@ -1,6 +1,6 @@
 {
   "name": "@ubverse/acc",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "application configuration checker",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,7 +19,8 @@
     "check:style": "ts-standard src",
     "check:types": "tsc --noEmit",
     "fix:style": "prettier --config .prettierrc.js '**/*.ts' --write && ts-standard --fix src",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "test": "jest"
   },
   "author": "Caian Ertl <hi@caian.org>",
   "license": "CC0-1.0",
@@ -34,13 +35,12 @@
     ]
   },
   "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.290.0",
-    "type-fest": "^3.6.1"
+    "@aws-sdk/client-secrets-manager": "^3.292.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
-    "@types/jest": "^29.4.3",
+    "@types/jest": "^29.4.4",
     "@types/node": "^18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
