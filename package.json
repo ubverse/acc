@@ -34,9 +34,6 @@
       "npm run fix:style"
     ]
   },
-  "dependencies": {
-    "@aws-sdk/client-secrets-manager": "^3.299.0"
-  },
   "devDependencies": {
     "@commitlint/cli": "^17.5.0",
     "@commitlint/config-conventional": "^17.4.4",
