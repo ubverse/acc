@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "build:clean": "rm -rf dist && npm run build",
+    "build:clean": "rm -rf dist tsconfig.tsbuildinfo && npm run build",
     "bump:all": "npm run bump:dev && npm run bump:prod",
     "bump:dev": "ncu --upgrade --dep dev --target minor",
     "bump:prod": "ncu --upgrade --dep prod --target minor",
@@ -19,7 +19,7 @@
     "check:style": "ts-standard src",
     "check:types": "tsc --noEmit",
     "fix:style": "prettier --config .prettierrc.js '**/*.ts' --write && ts-standard --fix src",
-    "prepublish": "npm run build",
+    "prepublish": "npm run build:clean",
     "test": "jest"
   },
   "author": "Caian Ertl <hi@caian.org>",

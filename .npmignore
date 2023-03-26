@@ -3,7 +3,11 @@
 .jscpd.json
 .prettierrc.js
 .prettierignore
+jest.config.ts
+tsconfig.tsbuildinfo
 commitlint.config.js
 report
+coverage
 
 **/*.test.ts
+**/*.test.js
