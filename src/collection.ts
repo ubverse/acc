@@ -1,4 +1,4 @@
-import { ConfigValueType, SupportedValueTypes, IConfig, IConfigUserOptions, IConfigCollectionOption } from './types'
+import { ConfigValueType, SupportedValueTypes, IConfig, IConfigOptions, IConfigCollectionOption } from './types'
 
 export class ConfigCollection {
   private readonly option: IConfigCollectionOption
@@ -12,8 +12,8 @@ export class ConfigCollection {
     this.configs = []
   }
 
-  public include (name: string, type: ConfigValueType, option?: Partial<IConfigUserOptions>): this {
-    const { fallback, items } = option ?? {}
+  public include (name: string, type: ConfigValueType, option: Partial<IConfigOptions> = {}): this {
+    const { isRequired = true } = option
 
     name = name.trim()
     if (name.length === 0) {
@@ -26,19 +26,24 @@ export class ConfigCollection {
       }
     }
 
-    if (type !== ConfigValueType.Enum && Array.isArray(items)) {
+    if (type !== ConfigValueType.Enum && Array.isArray(option.items)) {
       throw new Error(`parameter "option.items" on config "${name}" is only allowed when type is "enum"`)
     }
 
-    const isRequired = typeof fallback === 'undefined'
+    if (!isRequired && option.fallback !== undefined) {
+      throw new Error('fallback implies a required config')
+    }
 
     this.configs.push({
       name,
       type,
       option: {
-        isRequired,
-        fallback: isRequired ? this.getDefaultValue(type) : this.validateFallbackValueTypes(name, type, fallback),
-        items: Array.isArray(items) ? items : []
+        isRequired: isRequired && option.fallback === undefined,
+        items: option.items ?? [],
+        fallback:
+          option.fallback === undefined
+            ? this.getDefaultValue(type)
+            : this.validateFallbackValueTypes(name, type, option.fallback)
       }
     })
 

@@ -34,13 +34,10 @@ export enum ConfigValueType {
 /* Supported environment variables types (as seem at @enum ConfigDataType). */
 export type SupportedValueTypes = string | number | boolean | string[]
 
-export interface IConfigUserOptions {
+export interface IConfigOptions {
+  readonly isRequired: boolean
   readonly fallback: SupportedValueTypes
   readonly items: Nullable<string[]>
-}
-
-export interface IConfigOptions extends IConfigUserOptions {
-  readonly isRequired: boolean
 }
 
 export interface IConfig {

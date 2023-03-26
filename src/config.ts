@@ -90,11 +90,11 @@ export class AppConfigurationChecker {
       }
 
       case ConfigValueType.Boolean: {
-        if (['true', 'yes', '1'].includes(data)) {
+        if (['true', 'yes', '1'].includes(data.toLowerCase())) {
           return true
         }
 
-        if (['false', 'no', '0'].includes(data)) {
+        if (['false', 'no', '0'].includes(data.toLowerCase())) {
           return false
         }
 
@@ -102,11 +102,7 @@ export class AppConfigurationChecker {
       }
 
       case ConfigValueType.List: {
-        try {
-          return data.split(',')
-        } catch (e) {
-          return null
-        }
+        return data.split(',')
       }
 
       case ConfigValueType.Enum: {

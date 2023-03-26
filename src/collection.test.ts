@@ -1,7 +1,7 @@
 import { ConfigCollection } from './collection'
-import { ConfigValueType, IConfig } from './types'
+import { ConfigValueType, IConfig, SupportedValueTypes } from './types'
 
-describe('ConfigCollection', () => {
+describe('ConfigCollection | Allowed interactions', () => {
   it('should allow a text config to be included', () => {
     const configs = new ConfigCollection().include('REQUIRED_TEXT_CFG', ConfigValueType.Text).getConfigs()
 
@@ -181,7 +181,9 @@ describe('ConfigCollection', () => {
     expect(configs).toHaveLength(1)
     expect(configs[0]).toStrictEqual(enumConf)
   })
+})
 
+describe('ConfigCollection | Validation and type errors', () => {
   it('should not allow a config with empty name', () => {
     const f = (name: string, type: ConfigValueType): IConfig[] => new ConfigCollection().include(name, type).getConfigs()
 
@@ -273,6 +275,23 @@ describe('ConfigCollection', () => {
 
     for (const t of tests) {
       expect(() => f(t.name)).toThrowError(`the config "${t.name}" must have an uppercased name`)
+    }
+  })
+
+  it('should not allow a non-required config to have a fallback value', () => {
+    const f = (name: string, type: ConfigValueType, fallback: SupportedValueTypes): IConfig[] =>
+      new ConfigCollection().include(name, type, { isRequired: false, fallback }).getConfigs()
+
+    const tests = [
+      { name: 'TEXT_CFG', type: ConfigValueType.Text, fallback: 'abc' },
+      { name: 'ENUM_CFG', type: ConfigValueType.Enum, fallback: 'a' },
+      { name: 'NUMBER_CFG', type: ConfigValueType.Number, fallback: 123 },
+      { name: 'BOOLEAN_CFG', type: ConfigValueType.Boolean, fallback: true },
+      { name: 'LIST_CFG', type: ConfigValueType.List, fallback: ['a', 'b', 'c'] }
+    ]
+
+    for (const t of tests) {
+      expect(() => f(t.name, t.type, t.fallback)).toThrowError('fallback implies a required config')
     }
   })
 })
